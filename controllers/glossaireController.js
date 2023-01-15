@@ -68,9 +68,47 @@ async function createDefinition (req, res) {
 
 }
 
+// @desc        update a ressource
+// @routes      PUT /api/glossaire/:id
+async function updateDefinition (req, res, id) {
+    try {
+        const definition = await Glossaire.findById (id)
+        if (!definition) { 
+            res.writeHead (200, {'Content-Type' : 'application/json'})
+            res.end (JSON.stringify(glossaire))
+        } else {
+
+            const body = await getPostData (req)
+
+            const { letter, definition } = JSON.parse (body)
+
+            const definitionData = 
+            {
+                letter: letter || definition.letter,
+                definition: definition || definition.definition
+            }            
+
+            const updateDefinition = await Glossaire.update (id, definitionData)
+            
+            // POST code
+            res.writeHead (201, {'Content-Type' : 'application/json'})
+            // return new def to program
+            return res.end (JSON.stringify(updateDefinition))
+
+  
+
+        }
+        
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
 // export
 module.exports = { 
     getDefinition, 
     getDefinitions,
-    createDefinition
+    createDefinition,
+    updateDefinition
 }

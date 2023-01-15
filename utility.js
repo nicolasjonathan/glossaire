@@ -9,10 +9,12 @@ function writeDataToFile (filename, content) {
     })
 }
 
-function getPostData () {
+function getPostData (req) {
     return new Promise ((resolve, reject) => {
         try {
             let body = ''
+
+            // à chaque fois qu'un event 'data' est émis, on ajoute un chunk (morceau de files) à la variable body.
             req.on ('data', (chunk) => {
                 body += chunk.toString()
             })
