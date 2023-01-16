@@ -35,6 +35,24 @@ function create (glossaire) {
     })
 }
 
+function update (id, glossaire) {
+
+    return new Promise ((resolve, reject) => {
+
+        const index = glossaires.findIndex((d)=> d.id === id)
+        
+        // on push {newGlossaire} dans le fichier json glossaires.json
+        glossaires.push (newGlossaire)
+
+        // on persiste ça via les streams
+        writeDataToFile ('./datas/glossaires.json', glossaires)
+
+        // on resolve la promesse
+        resolve (newGlossaire)
+
+    })
+}
+
 module.exports = { 
     findAll, 
     findById,

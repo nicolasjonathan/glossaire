@@ -74,12 +74,14 @@ async function updateDefinition (req, res, id) {
     try {
         const definition = await Glossaire.findById (id)
         if (!definition) { 
-            res.writeHead (200, {'Content-Type' : 'application/json'})
-            res.end (JSON.stringify(glossaire))
+            res.writeHead (404, {'Content-Type' : 'application/json'})
+            res.end (JSON.stringify({message: 'ressource not found'}))
         } else {
-
+            
+            // body = ce qu'on recupere comme data de la requete
             const body = await getPostData (req)
 
+            // hydrate 
             const { letter, definition } = JSON.parse (body)
 
             const definitionData = 
@@ -90,8 +92,8 @@ async function updateDefinition (req, res, id) {
 
             const updateDefinition = await Glossaire.update (id, definitionData)
             
-            // POST code
-            res.writeHead (201, {'Content-Type' : 'application/json'})
+            // PUT code
+            res.writeHead (200, {'Content-Type' : 'application/json'})
             // return new def to program
             return res.end (JSON.stringify(updateDefinition))
 
